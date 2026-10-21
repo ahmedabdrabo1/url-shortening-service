@@ -1,3 +1,4 @@
+
 import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
 import { createUrlWithUniqueShortCode } from "../utils/generateShortCode.js";
@@ -91,9 +92,7 @@ export const deleteShorten = async (_req: Request, res: Response) => {
     },
   });
 
-  res.status(200).json({
-    message: "Short URL deleted successfully",
-  });
+  res.status(204).send();
 };
 
 export const getShortenStats = async (

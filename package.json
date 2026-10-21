@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
   },
   "repository": {
     "type": "git",
@@ -30,9 +31,16 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
     "@types/node": "^26.6.5",
+    "@types/supertest": "^7.2.1",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "cross-env": "^10.1.0",
+    "jest": "^30.5.2",
     "prisma": "^7.10.1",
+    "supertest": "^7.3.1",
+    "ts-jest": "29.4",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   }
 }
