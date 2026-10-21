@@ -1,7 +1,9 @@
+
 import "dotenv/config";
 import express from "express";
-import shortenRouter from "./routes/shorten.route.js";
 
+import shortenRouter from "./routes/shorten.route.js";
+import redirectRouter from "./routes/redirect.routes.js";
 
 import errorHandler from "./middlewares/error.middleware.js";
 
@@ -15,8 +17,13 @@ app.get("/", (_req, res) => {
   });
 });
 
+// Create, read, update, delete, and stats
 app.use("/shorten", shortenRouter);
 
-app.use(errorHandler)
+// Redirect short URLs
+app.use("/", redirectRouter);
+
+// Must be registered after the routes
+app.use(errorHandler);
 
 export default app;

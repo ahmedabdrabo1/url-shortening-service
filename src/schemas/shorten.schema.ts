@@ -1,14 +1,20 @@
 import { z } from "zod";
 
+const urlSchema = z
+  .string()
+  .trim()
+  .pipe(
+    z.url({
+      protocol: /^https?$/,
+    }),
+  );
+
 export const createShortenSchema = z.object({
-  url: z
-    .string()
-    .trim()
-    .pipe(
-      z.url({
-        protocol: /^https?$/,
-      }),
-    ),
+  url: urlSchema,
+});
+
+export const updateShortenSchema = z.object({
+  url: urlSchema,
 });
 
 export const shortCodeParamsSchema = z.object({
