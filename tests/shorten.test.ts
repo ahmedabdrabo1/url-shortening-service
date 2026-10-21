@@ -25,8 +25,6 @@ describe("Shorten API", () => {
         },
       },
     });
-
-    await prisma.$disconnect();
   });
 
   it("POST /shorten - should create a short URL", async () => {

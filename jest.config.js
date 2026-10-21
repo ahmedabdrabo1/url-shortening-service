@@ -28,6 +28,8 @@ const config = {
   ],
 
   testMatch: ["<rootDir>/tests/**/*.test.ts"],
+
+  setupFilesAfterEnv: ["<rootDir>/tests/setup.ts"],
 };
 
 export default config;
