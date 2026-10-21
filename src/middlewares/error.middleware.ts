@@ -1,12 +1,7 @@
-import type { Request, Response, NextFunction } from "express";
+import type { ErrorRequestHandler } from "express";
 import { ErrorApp } from "./errorApp.middleware.js";
 
-const errorHandler = (
-  err: Error,
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-) => {
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof ErrorApp) {
     return res.status(err.statusCode).json({
       message: err.message,
