@@ -5,7 +5,7 @@ import {
   getShorten,
   updateShorten,
   deleteShorten,
-  getShortenStats
+  getShortenStats,
 } from "../controllers/shorten.controller.js";
 
 import {
@@ -16,16 +16,17 @@ import {
 
 import validate from "../middlewares/validate.middleware.js";
 
+import { createShortenLimiter } from "../middlewares/rateLimit.middleware.js"
+
 const router = express.Router();
 
-router.route("/").post(validate(createShortenSchema), createShorten);
+router
+  .route("/")
+  .post(createShortenLimiter, validate(createShortenSchema), createShorten);
 
 router
   .route("/:shortCode/stats")
-  .get(
-    validate(shortCodeParamsSchema, "params"),
-    getShortenStats,
-  );
+  .get(validate(shortCodeParamsSchema, "params"), getShortenStats);
 
 router
   .route("/:shortCode")

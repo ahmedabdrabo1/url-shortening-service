@@ -8,6 +8,30 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     });
   }
 
+  // Handle malformed JSON sent by express.json()
+  if (
+    err instanceof SyntaxError &&
+    "status" in err &&
+    err.status === 400 &&
+    "body" in err
+  ) {
+    return res.status(400).json({
+      message: "Invalid JSON body",
+    });
+  }
+
+  // Handle request bodies that exceed the configured size limit
+  if (
+    typeof err === "object" &&
+    err !== null &&
+    "status" in err &&
+    err.status === 413
+  ) {
+    return res.status(413).json({
+      message: "Request body too large",
+    });
+  }
+
   console.error(err);
 
   return res.status(500).json({

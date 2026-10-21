@@ -54,6 +54,34 @@ describe("Shorten API", () => {
     expect(response.status).toBe(400);
   });
 
+  it("POST /shorten - should reject a missing URL", async () => {
+    const response = await request(app)
+      .post("/shorten")
+      .send({});
+
+    expect(response.status).toBe(400);
+  });
+
+  it("POST /shorten - should reject an empty URL", async () => {
+    const response = await request(app)
+      .post("/shorten")
+      .send({
+        url: "   ",
+      });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("POST /shorten - should reject an unsupported protocol", async () => {
+    const response = await request(app)
+      .post("/shorten")
+      .send({
+        url: "ftp://example.com/file",
+      });
+
+    expect(response.status).toBe(400);
+  });
+
   it("GET /shorten/:shortCode - should return the URL", async () => {
     const response = await request(app).get(
       `/shorten/${shortCode}`,
@@ -90,6 +118,30 @@ describe("Shorten API", () => {
     );
 
     expect(response.status).toBe(404);
+  });
+
+  it("GET /shorten/:shortCode - should reject a short code shorter than 6 characters", async () => {
+    const response = await request(app).get(
+      "/shorten/ABC12",
+    );
+
+    expect(response.status).toBe(400);
+  });
+
+  it("GET /shorten/:shortCode - should reject a short code longer than 6 characters", async () => {
+    const response = await request(app).get(
+      "/shorten/ABC1234",
+    );
+
+    expect(response.status).toBe(400);
+  });
+
+  it("GET /shorten/:shortCode - should reject a short code containing special characters", async () => {
+    const response = await request(app).get(
+      "/shorten/ABC12!",
+    );
+
+    expect(response.status).toBe(400);
   });
 
   it("PUT /shorten/:shortCode - should update the URL", async () => {
